@@ -51,27 +51,28 @@ All provisioning handled via Ansible playbooks.
 
 ## 📂 Project Structure
 
-blue-green-deployment/
+```
+production-blue-green-deployment/
 │
 ├── app/
-│   ├── v1/
+│   ├── v1/                     # Blue (Stable) Version
 │   │   ├── Dockerfile
 │   │   └── index.html
-│   └── v2/
+│   │
+│   └── v2/                     # Green (Release Candidate) Version
 │       ├── Dockerfile
 │       └── index.html
 │
 ├── templates/
-│   └── nginx.conf.j2
+│   └── nginx.conf.j2           # Nginx reverse proxy template
 │
-├── deploy.yml
-├── switch.yml
-├── inventory.ini
-├── pipeline.sh
+├── deploy.yml                  # Initial deployment playbook
+├── switch.yml                  # Traffic switching & rollback playbook
+├── inventory.ini               # Ansible inventory file
+├── pipeline.sh                 # CI/CD simulation script
 ├── README.md
-└── venv/
-
----
+└── venv/                       # Python virtual environment
+```
 
 ## ⚙️ Technologies Used
 
