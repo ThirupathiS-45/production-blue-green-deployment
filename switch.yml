@@ -1,0 +1,63 @@
+---
+- name: Switch Active Deployment with Rollback
+  hosts: webservers
+  become: yes
+  vars:
+    active_version: green
+    previous_version: blue
+
+  tasks:
+
+    - name: Set active container name
+      set_fact:
+        active_container: "{{ active_version }}_container"
+
+    - name: Generate Nginx config
+      ansible.builtin.template:
+        src: templates/nginx.conf.j2
+        dest: "{{ playbook_dir }}/nginx.conf"
+
+    - name: Restart Nginx proxy
+      community.docker.docker_container:
+        name: nginx_proxy
+        state: started
+        recreate: yes
+        networks:
+          - name: bluegreen_network
+        ports:
+          - "80:80"
+        volumes:
+          - "{{ playbook_dir }}/nginx.conf:/etc/nginx/nginx.conf:ro"
+
+    - name: Wait for service to stabilize
+      ansible.builtin.pause:
+        seconds: 3
+
+    - name: Health Check
+      ansible.builtin.command: curl -f http://localhost
+      register: health_check
+      ignore_errors: yes
+
+    - name: Rollback if health check fails
+      when: health_check.rc != 0
+      block:
+        - name: Set rollback container
+          set_fact:
+            active_container: "{{ previous_version }}_container"
+
+        - name: Regenerate Nginx config for rollback
+          ansible.builtin.template:
+            src: templates/nginx.conf.j2
+            dest: "{{ playbook_dir }}/nginx.conf"
+
+        - name: Restart Nginx proxy for rollback
+          community.docker.docker_container:
+            name: nginx_proxy
+            state: started
+            recreate: yes
+            networks:
+              - name: bluegreen_network
+            ports:
+              - "80:80"
+            volumes:
+              - "{{ playbook_dir }}/nginx.conf:/etc/nginx/nginx.conf:ro"
