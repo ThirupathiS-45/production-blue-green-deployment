@@ -146,10 +146,3 @@ Pipeline Flow:
 - CI/CD Automation
 
 ---
-
-## 🏆 Resume Description
-
-Designed and implemented a production-grade Blue-Green deployment system using Ansible and Docker with zero-downtime switching, automated health checks, and rollback mechanism, simulating a CI/CD pipeline.
-
----
-
