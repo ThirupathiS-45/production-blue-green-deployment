@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Green Deployment</title>
+    <title>Release Candidate - Green</title>
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #134e5e, #71b280);
+            font-family: 'Segoe UI', sans-serif;
+            background: #052e16;
             color: white;
-            text-align: center;
+        }
+        .navbar {
+            background: #064e3b;
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        .badge {
+            background: #22c55e;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
         }
         .container {
-            margin-top: 15%;
+            margin: 100px auto;
+            width: 60%;
+            text-align: center;
         }
         h1 {
-            font-size: 48px;
-            color: #00ff7f;
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+        .card {
+            background: #064e3b;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
         }
         .status {
-            margin-top: 20px;
-            font-size: 22px;
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            display: inline-block;
-        }
-        .footer {
-            position: fixed;
-            bottom: 10px;
-            width: 100%;
-            font-size: 14px;
-            opacity: 0.7;
+            color: #4ade80;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🟢 GREEN Deployment - Version 2</h1>
-        <div class="status">
-            Status: ACTIVE<br>
-            Deployment Strategy: Blue-Green<br>
-            Zero Downtime Enabled
-        </div>
+
+<div class="navbar">
+    🟢 Release Candidate
+    <span class="badge">GREEN - New Version</span>
+</div>
+
+<div class="container">
+    <h1>Version 2.0</h1>
+    <div class="card">
+        <p><strong>Status:</strong> <span class="status">ACTIVE</span></p>
+        <p><strong>Deployment Strategy:</strong> Blue-Green</p>
+        <p><strong>Zero Downtime:</strong> Enabled</p>
+        <p><strong>Release Type:</strong> Candidate</p>
     </div>
-    <div class="footer">
-        Powered by Docker + Ansible | Production-Grade Deployment
-    </div>
+</div>
+
 </body>
 </html>
