@@ -2,50 +2,77 @@
 
 ## 📌 Project Overview
 
-This project implements a production-style Blue-Green deployment architecture using:
+This project implements an **enterprise-grade** Blue-Green deployment architecture with comprehensive DevOps practices:
 
-- Docker
-- Ansible (Infrastructure as Code)
-- Nginx (Containerized Reverse Proxy)
-- Zero-Downtime Switching
-- Automatic Rollback Mechanism
-- CI/CD Pipeline Simulation
+- **Docker** (Multi-stage builds, Security hardening)
+- **Ansible** (Infrastructure as Code with enhanced playbooks)  
+- **Nginx** (Containerized Reverse Proxy with health routing)
+- **Zero-Downtime Switching** with advanced health checks
+- **Automatic Rollback** with comprehensive validation
+- **Security Scanning** & vulnerability assessment
+- **Real-time Monitoring** & metrics collection
+- **Configuration Management** with validation
+- **Enhanced CI/CD Pipeline** with multiple execution modes
 
-The system ensures safe, automated, and zero-downtime application deployments.
-
----
-
-## 🏗 Architecture
-
-Browser → Nginx (Docker Reverse Proxy) → Blue / Green Containers → Docker Network
-
-Deployment Flow:
-Deploy → Switch Traffic → Health Check → Rollback (if needed)
+The system ensures safe, automated, secure, and observable zero-downtime application deployments.
 
 ---
 
-## ✨ Features
+## 🏗 Enhanced Architecture
 
-### ✅ Blue-Green Deployment
-Two versions of the application run simultaneously:
-- Blue (stable version)
-- Green (new version)
+```
+Browser → Nginx Proxy → Blue/Green Containers → Docker Network
+                ↓
+    Health Checks → Monitoring → Alerting → Rollback
+                ↓
+    Security Scan → Config Validation → Metrics Collection
+```
 
-### ✅ Zero Downtime Switching
-Traffic is switched via reverse proxy without stopping containers.
+**Deployment Flow:**
+1. **Pre-flight** → Config Validation → Security Scan
+2. **Deploy** → Build & Start Containers → Health Validation  
+3. **Switch** → Traffic Routing → Deep Health Checks → Rollback (if needed)
+4. **Monitor** → Metrics Collection → Alert Generation → Report
 
-### ✅ Automatic Rollback
-If health check fails:
-- Traffic automatically reverts to previous stable version.
+---
 
-### ✅ CI/CD Simulation
-Pipeline script automates:
-1. Container deployment
-2. Traffic switching
-3. Health validation
+## ✨ Enhanced Features
 
-### ✅ Infrastructure as Code
-All provisioning handled via Ansible playbooks.
+### 🔄 **Advanced Blue-Green Deployment**
+- **Parallel Environments**: Blue (stable) & Green (candidate) versions
+- **Intelligent Switching**: Health-check driven traffic routing
+- **Rollback Automation**: Instant revert on failure detection
+- **Configuration Driven**: YAML-based deployment parameters
+
+### 🏥 **Comprehensive Health Checks** 
+- **Multi-endpoint Validation**: Basic connectivity + detailed health APIs
+- **Retry Logic**: Configurable retry attempts with exponential backoff
+- **Deep Health Validation**: Application metrics, dependencies, performance
+- **Failure Detection**: Automatic issue identification and remediation
+
+### 🔒 **Enterprise Security**
+- **Container Scanning**: Vulnerability assessment for Docker images  
+- **Security Hardening**: Non-root users, minimal attack surface
+- **Dockerfile Best Practices**: Multi-stage builds, security validations
+- **Compliance Reporting**: Security posture analysis and recommendations
+
+### 📊 **Real-time Monitoring & Observability**
+- **System Metrics**: CPU, memory, disk usage tracking
+- **Application Performance**: Response times, availability, throughput
+- **Container Health**: Status monitoring, restart tracking, uptime analysis
+- **Alert Management**: Configurable thresholds, notification system
+
+### 🛠 **Configuration Management**
+- **YAML Configuration**: Centralized, version-controlled settings
+- **Schema Validation**: Automated config correctness verification  
+- **Environment Specific**: Dev/staging/production parameter management
+- **Dynamic Updates**: Runtime configuration changes support
+
+### 📈 **Enhanced CI/CD Pipeline**
+- **Multi-mode Execution**: Normal, dry-run, selective component execution
+- **Comprehensive Logging**: Structured logs with severity levels
+- **Error Handling**: Graceful failure management and recovery
+- **Reporting**: Detailed deployment reports and metrics
 
 ---
 

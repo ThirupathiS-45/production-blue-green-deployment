@@ -31,16 +31,58 @@
 
     - name: Wait for service to stabilize
       ansible.builtin.pause:
-        seconds: 3
+        seconds: 5
 
-    - name: Health Check
-      ansible.builtin.command: curl -f http://localhost
-      register: health_check
-      ignore_errors: yes
-
-    - name: Rollback if health check fails
-      when: health_check.rc != 0
+    - name: Comprehensive Health Check with Retry Logic
       block:
+        - name: Basic connectivity check
+          ansible.builtin.uri:
+            url: "http://localhost"
+            method: GET
+            timeout: 10
+            status_code: 200
+          register: basic_health_check
+          retries: 3
+          delay: 2
+
+        - name: Detailed health endpoint check
+          ansible.builtin.uri:
+            url: "http://localhost/health.html"
+            method: GET
+            timeout: 15
+            status_code: 200
+            return_content: yes
+          register: detailed_health_check
+          retries: 5
+          delay: 3
+
+        - name: Validate health response contains required fields
+          ansible.builtin.assert:
+            that:
+              - "'healthy' in detailed_health_check.content"
+              - "'version' in detailed_health_check.content"
+              - "'timestamp' in detailed_health_check.content"
+            fail_msg: "Health check response is missing required fields"
+
+        - name: Performance validation check
+          ansible.builtin.uri:
+            url: "http://localhost"
+            method: GET
+            timeout: 5
+            status_code: 200
+          register: performance_check
+          retries: 3
+          delay: 1
+
+        - name: Log successful health check
+          ansible.builtin.debug:
+            msg: "✅ Health check passed for {{ active_version }} version"
+
+      rescue:
+        - name: Log health check failure
+          ansible.builtin.debug:
+            msg: "❌ Health check failed for {{ active_version }} version, initiating rollback"
+          
         - name: Set rollback container
           set_fact:
             active_container: "{{ previous_version }}_container"

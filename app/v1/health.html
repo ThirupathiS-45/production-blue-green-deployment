@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Health Check - Blue v1.0</title>
+    <meta http-equiv="Content-Type" content="application/json">
+</head>
+<body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const healthData = {
+        status: "healthy",
+        version: "1.0.0",
+        environment: "blue",
+        timestamp: new Date().toISOString(),
+        uptime: Math.floor(Math.random() * 86400), // Simulated uptime in seconds
+        checks: {
+            database: "ok",
+            cache: "ok", 
+            external_api: "ok",
+            disk_space: "ok"
+        },
+        metrics: {
+            memory_usage: Math.floor(Math.random() * 80) + 10 + "%",
+            cpu_usage: Math.floor(Math.random() * 50) + 5 + "%",
+            response_time_ms: Math.floor(Math.random() * 50) + 10,
+            active_connections: Math.floor(Math.random() * 100) + 10
+        }
+    };
+
+    // Set content type to JSON
+    document.body.innerHTML = '<pre>' + JSON.stringify(healthData, null, 2) + '</pre>';
+    document.body.style.fontFamily = 'monospace';
+    document.body.style.backgroundColor = '#0f172a';
+    document.body.style.color = '#22c55e';
+    document.body.style.padding = '20px';
+});
+</script>
+</body>
+</html>

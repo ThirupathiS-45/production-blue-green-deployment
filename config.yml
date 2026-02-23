@@ -1,0 +1,60 @@
+# Blue-Green Deployment Configuration
+# This file contains all configurable parameters for the deployment system
+
+deployment:
+  # Application configuration
+  app:
+    name: "blue-green-app"
+    namespace: "production"
+    
+  # Version configuration  
+  versions:
+    blue:
+      tag: "v1.0.0"
+      port: 8081
+      replicas: 1
+      resources:
+        cpu_limit: "500m"
+        memory_limit: "512Mi"
+        
+    green:
+      tag: "v2.0.0" 
+      port: 8082
+      replicas: 1
+      resources:
+        cpu_limit: "500m"
+        memory_limit: "512Mi"
+
+  # Network configuration
+  network:
+    name: "bluegreen_network"
+    proxy_port: 80
+    
+  # Health check configuration
+  health_checks:
+    endpoint: "/health.html"
+    timeout: 15
+    retries: 5
+    delay: 3
+    required_fields:
+      - "healthy" 
+      - "version"
+      - "timestamp"
+      
+  # Rollback configuration
+  rollback:
+    enabled: true
+    automatic: true
+    on_health_failure: true
+    
+  # Monitoring configuration
+  monitoring:
+    enabled: true
+    metrics_port: 9090
+    log_level: "INFO"
+    
+  # Security configuration
+  security:
+    scan_images: true
+    enforce_https: false
+    secrets_rotation: false
